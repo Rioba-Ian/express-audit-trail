@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { pool } from "./lib/database";
+import { client } from "./lib/database";
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ app.get("/audit-trail/:userId", async (req, res) => {
 
  try {
   // Get audit trail data
-  const { rows } = await pool.query(
+  const { rows } = await client.query(
    `
         WITH RECURSIVE transfer_chain (transactionId, userId, previous_transactionId) AS (
           SELECT
