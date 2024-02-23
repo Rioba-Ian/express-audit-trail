@@ -12,7 +12,7 @@ services:
   networks:
    - app-network
   ports:
-   - 5432:5432
+   - 65432:65432
 
 networks:
  app-network:
