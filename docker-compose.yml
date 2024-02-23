@@ -1,22 +1,17 @@
-version: "3.9"
+version: "3.8"
 
 services:
- db:
-  image: postgres:13
+ postgresdb:
+  image: postgres
+  restart: unless-stopped
   environment:
-   - POSTGRES_USER=postgres
-   - POSTGRES_PASSWORD=pass123
-   - POSTGRES_DB=user_audit_trail
-  volumes:
-   - db-data:/var/lib/postgresql/data
-  networks:
-   - app-network
+   - POSTGRES_USER=$POSTGRESDB_USER
+   - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+   - POSTGRES_DB=$POSTGRESDB_DATABASE
   ports:
-   - 65432:65432
-
-networks:
- app-network:
-  driver: bridge
+   - 8080:5432
+  volumes:
+   - db:/var/lib/postgresql/data
 
 volumes:
- db-data:
+ db:

@@ -1,14 +1,18 @@
-import express from "express";
 import dotenv from "dotenv";
-import createClient from "./lib/database";
 
-dotenv.config();
+dotenv.config({
+ path: `./src/.env`,
+});
+
+import express from "express";
+import pool from "./lib/database";
+
+console.log(`PGUSER: ${process.env.PGHOST}, ${__dirname}/.env`);
 
 const app = express();
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
-const client = createClient();
 
 app.get("/healthcheck", (req, res) => {
  res.send("Ok.");
@@ -19,7 +23,7 @@ app.get("/audit-trail/:userId", async (req, res) => {
 
  try {
   // Get audit trail data
-  const { rows } = await client.query(
+  const { rows } = await pool.query(
    `
         WITH RECURSIVE transfer_chain (transactionId, userId, previous_transactionId) AS (
           SELECT

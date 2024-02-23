@@ -1,39 +1,49 @@
-import { Client } from "pg";
+import { Client, Pool } from "pg";
+// import { Kysely, PostgresDialect } from "kysely";
 import fs from "fs";
+import { config } from "../../config";
 
-const createClient = (): Client => {
- const client = new Client({
-  user: "postgres",
-  host: "localhost",
-  database: "user_audit_trail",
-  password: "pass123",
-  port: 65432,
- });
+const pool = new Pool({
+ user: config.PGUSER,
+ host: config.PGHOST,
+ database: config.PGDATABASE,
+ password: config.PGPASSWORD,
+ max: 20,
+ idleTimeoutMillis: 30000,
+ connectionTimeoutMillis: 20000,
+ ssl: true,
+});
+console.log("Database pool connected.");
 
- client
-  .connect()
-  .then(() => {
-   console.log("Database client connected.");
+pool.connect((err, client, release) => {
+ if (err) {
+  console.error("Error connecting to pool:", err);
+  return;
+ }
 
-   // read queries from create tables query
-   const createTablesQuery = fs.readFileSync("./src/lib/tables.sql", "utf-8");
+ console.log("Connected to database pool.");
 
-   client
-    .query(createTablesQuery)
-    .then(() => {
-     console.log("Tables created successfully.");
-     client.end();
-    })
-    .catch((err) => {
-     console.error("Error creating tables:", err);
-     client.end();
-    });
-  })
-  .catch((err) => {
-   console.error(`Error connecting to database ${err}`);
-  });
+ release();
+});
 
- return client;
-};
+pool.on("error", (err) => {
+ console.error("Unexpected error on idle client", err);
+ process.exit(-1);
+});
 
-export default createClient;
+// creating tables query runs once
+// const createTablesQuery = fs.readFileSync(
+//  "./src/lib/queries/tables.sql",
+//  "utf-8"
+// );
+
+// pool
+//  .query(createTablesQuery)
+//  .then(() => {
+//   console.log("Tables created successfully.");
+//  })
+//  .catch((err) => {
+//   console.error("Error creating tables.", err);
+//  });
+
+export default pool;
