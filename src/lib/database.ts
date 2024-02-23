@@ -46,4 +46,19 @@ pool.on("error", (err) => {
 //   console.error("Error creating tables.", err);
 //  });
 
+// inseting data from /queries/insertdata.sql
+// const insertDataQuery = fs.readFileSync(
+//  "./src/lib/queries/insertdata.sql",
+//  "utf-8"
+// );
+
+// pool
+//  .query(insertDataQuery)
+//  .then(() => {
+//   console.log("Data inserted successfully.");
+//  })
+//  .catch((err) => {
+//   console.error("Error inserting data.", err);
+//  });
+
 export default pool;

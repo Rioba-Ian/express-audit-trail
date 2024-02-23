@@ -22,7 +22,6 @@ CREATE TABLE user_audit_trail.currencyconversions (
 );
 
 
-ALTER TABLE user_audit_trail.currencyconversions OWNER TO postgres;
 
 
 CREATE TABLE user_audit_trail.transactions (
@@ -39,17 +38,18 @@ CREATE TABLE user_audit_trail.transactions (
     receiverid integer
 );
 
-
-ALTER TABLE user_audit_trail.transactions OWNER TO postgres;
-
 CREATE TABLE user_audit_trail.users (
     userid integer NOT NULL,
     balance numeric(10,2),
     currency character varying(3)
 );
 
-
+ALTER TABLE user_audit_trail.currencyconversions OWNER TO postgres;
+ALTER TABLE user_audit_trail.transactions OWNER TO postgres;
 ALTER TABLE user_audit_trail.users OWNER TO postgres;
+
+
+
 
 ALTER TABLE ONLY user_audit_trail.transactions
     ADD CONSTRAINT transactions_pkey PRIMARY KEY (transactionid);

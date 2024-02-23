@@ -7,8 +7,6 @@ dotenv.config({
 import express from "express";
 import pool from "./lib/database";
 
-console.log(`PGUSER: ${process.env.PGHOST}, ${__dirname}/.env`);
-
 const app = express();
 app.use(express.json());
 
