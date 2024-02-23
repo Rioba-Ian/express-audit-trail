@@ -53,15 +53,3 @@ Pull requests are welcome! Please open an issue for any bugs or feature requests
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Additional Notes
-
-- This is a basic setup, and you might need to adapt it to your specific environment and needs.
-- Refer to the Docker documentation for more information on Docker and Docker Compose.
-
-## Additional Considerations
-
-1. **Security:** Be cautious when exposing the API publicly. Ensure proper authentication and authorization mechanisms are implemented.
-2. **Database Configuration:** Review and adjust the PostgreSQL configuration settings within the container as needed.
-3. **Performance:** For heavy usage, consider optimizing the API and database queries for improved performance.
-4. **Logging and Monitoring:** Implement logging and monitoring solutions to track API activity and system health.

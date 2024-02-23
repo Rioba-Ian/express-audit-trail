@@ -68,8 +68,6 @@ app.get("/audit-trail/:userId", async (req, res) => {
 
   // get the audit trail data and also find way to get final balance
 
-  console.log(rows);
-
   // Calculate final balance
   const balance = rows.reduce((acc, transaction) => {
    if (transaction.transactionType === "deposit") {
