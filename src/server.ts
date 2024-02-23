@@ -20,9 +20,14 @@ app.get("/audit-trail/:userId", async (req, res) => {
  const { userId } = req.params;
 
  try {
+  const client = await pool.connect();
+
+  await client.query("BEGIN");
+
+  await client.query("SET search_path = user_audit_trail;");
   // Get audit trail data
-  const { rows } = await pool.query(
-   `
+  const { rows } = await client.query(
+   `    
         WITH RECURSIVE transfer_chain (transactionId, userId, previous_transactionId) AS (
           SELECT
             transactionId,
@@ -59,6 +64,12 @@ app.get("/audit-trail/:userId", async (req, res) => {
    [userId]
   );
 
+  await client.query("COMMIT");
+
+  // get the audit trail data and also find way to get final balance
+
+  console.log(rows);
+
   // Calculate final balance
   const balance = rows.reduce((acc, transaction) => {
    if (transaction.transactionType === "deposit") {
@@ -73,6 +84,8 @@ app.get("/audit-trail/:userId", async (req, res) => {
    }
    return acc;
   }, 0);
+
+  client.release();
 
   res.json({
    auditTrail: rows,

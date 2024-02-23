@@ -5,9 +5,9 @@ services:
   image: postgres
   restart: unless-stopped
   environment:
-   - POSTGRES_USER=$POSTGRESDB_USER
-   - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
-   - POSTGRES_DB=$POSTGRESDB_DATABASE
+   - POSTGRES_USER=postgres
+   - POSTGRES_PASSWORD=pass123
+   - POSTGRES_DB=user_audit_trail
   ports:
    - 8080:5432
   volumes:

@@ -1,5 +1,4 @@
-import { Client, Pool } from "pg";
-// import { Kysely, PostgresDialect } from "kysely";
+import { Pool } from "pg";
 import fs from "fs";
 import { config } from "../../config";
 
