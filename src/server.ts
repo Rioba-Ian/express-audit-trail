@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { client } from "./lib/database";
+import createClient from "./lib/database";
 
 dotenv.config();
 
@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
+const client = createClient();
 
 app.get("/healthcheck", (req, res) => {
  res.send("Ok.");
